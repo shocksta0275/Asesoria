@@ -189,7 +189,7 @@ button {
   display: flex;
   flex-flow: column;
   justify-content: flex-end;
-  background-image: url('/img/header-bg.jpg');
+  background-image: url('img/header-bg.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -334,42 +334,42 @@ button {
 .sector-item p{ font-size: 14px; text-align: left; margin:0; padding:0;}
 .jubilados{
   position: relative;
-  background-image: url('/img/jubilados-tab.jpg');
+  background-image: url('img/jubilados-tab.jpg');
   background-size: cover;
   background-position: 90% 10%;
   overflow: hidden;
 }
 .privada{
   position: relative;
-  background-image: url('/img/privada-tab.jpg');
+  background-image: url('img/privada-tab.jpg');
   background-size: cover;
   background-position: 90% 10%;
   overflow: hidden;
 }
 .salud{
   position: relative;
-  background-image: url('/img/salud-tab.jpg');
+  background-image: url('img/salud-tab.jpg');
   background-size: cover;
   background-position: 90% 10%;
   overflow: hidden;
 }
 .gobierno{
   position: relative;
-  background-image: url('/img/gobierno-tab.jpg');
+  background-image: url('img/gobierno-tab.jpg');
   background-size: cover;
   background-position: 90% 10%;
   overflow: hidden;
 }
 .educador{
   position: relative;
-  background-image: url('/img/educador-tab.jpg');
+  background-image: url('img/educador-tab.jpg');
   background-size: cover;
   background-position: 90% 10%;
   overflow: hidden;
 }
 .acp{
   position: relative;
-  background-image: url('/img/acp-tab.jpg');
+  background-image: url('img/acp-tab.jpg');
   background-size: cover;
   background-position: 90% 10%;
   overflow: hidden;
