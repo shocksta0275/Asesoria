@@ -146,40 +146,47 @@ button {
 /* Overlay */
 .menu-overlay {
   position: fixed;
-  inset: 0;
-  background-color: rgba(255, 255, 255, 0.90);
+  top: 70px; /* justo debajo del botón, ajusta según tu header */
+  right: 16px; /* ajusta al botón */
+  background-color: rgba(255, 255, 255, 0.95);
   display: none;
   flex-direction: column;
-  padding: 24px;
+  padding: 10px 20px;
   z-index: 2000;
+  width: max-content; /* se ajusta al contenido */
+  min-width: 250px;
+  height: auto; /* ahora sí funciona */
+  border-radius: 8px; /* opcional para estilo */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* Estado activo */
 .menu-overlay.active {
   display: flex;
 }
-
+.menu-overlay hr{ border: 1px solid #137cff;}
 /* Botón cerrar */
 .menu-close {
   align-self: flex-end;
-  font-size: 28px;
+  font-size: 20px;
   background: none;
   border: none;
   cursor: pointer;
+  color:#000000;
 }
 
 /* Navegación */
 .menu-nav {
-  margin-top: 48px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 10px;
 }
 
 .menu-nav a {
   font-size: 20px;
   text-decoration: none;
-  color: #000;
+  color: #137cff;
 }
 #main-content{
   
@@ -235,7 +242,7 @@ button {
   background-position: left bottom;
 }
 
-.v { color:#90dd2d;}
+.v { color:#90dd2d; font-weight: 600}
 .a { color: #137cff;}
 .n{color: #000000;}
 .btn-whatsapp {
@@ -251,6 +258,7 @@ button {
 }
 #cotiza{
   position: relative; 
+  padding-bottom: 60px;
 }
 
 .btn-cotiza {
@@ -422,7 +430,7 @@ footer hr{
   font-size:12px; 
   justify-content: center; 
   margin: auto 0;}
-.aicodigo img{ height:58px; width: auto}
+.aicodigo img{ height:55px; width: auto}
 #bottom{
   background-color: #222222;
 }
@@ -586,3 +594,80 @@ footer hr{
   border-bottom: 1px solid #ffffff;
   padding:5px 0px;
 }
+.reviews {
+  padding: 24px 16px;
+  text-align: center;
+  color: #ffffff;
+  border-top: #137cff 1px solid;
+}
+.reviews h2{
+  color: #137cff ;
+  font-weight: 200;
+  padding-bottom: 10px;
+}
+
+.carousel {
+  overflow: hidden;
+  touch-action: pan-y;
+  background: linear-gradient(135deg, #137cff 0%, #333ae0 50%, #040a8e 100%);
+  border-radius: 24px;
+}
+
+.carousel-track {
+  display: flex;
+  will-change: transform;
+}
+
+.review {
+  min-width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.review span {
+  display: block;
+  margin-top: 8px;
+  font-weight: 600;
+}
+.review p{
+  display: block;
+  font-size: 12px;
+  padding-top: 10px;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.carousel-dots button {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: #ccc;
+}
+
+.carousel-dots button.active {
+  background: #137cff;
+}
+#privacidad-header{
+  padding-top: 100px;
+  background-image: url('/img/privacidad.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+  height: 250px;
+}
+.privacidad{ color: #000000;}
+.privacidad p{ text-align: justify;}
+.privacidad h2{ color: #137cff; font-weight: 200; padding-bottom: 15px;}
+.menu-nav a.small { font-size: 14px;}
+.menu-nav a span{
+  color: #90dd2d;
+  margin-right: 6px;
+  font-weight: 600;
+                        }
