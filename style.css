@@ -224,7 +224,7 @@ header {
   display: flex;
   flex-flow: column;
   justify-content: flex-end;
-  background-image: url('/img/header-bg.jpg');
+  background-image: url('img/header-bg.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -400,22 +400,22 @@ header {
   overflow: hidden;
 }
 .jubilados{
-  background-image: url('/img/jubilados-tab.jpg');
+  background-image: url('img/jubilados-tab.jpg');
 }
 .privada{
-  background-image: url('/img/privada-tab.jpg');
+  background-image: url('img/privada-tab.jpg');
 }
 .salud{
-  background-image: url('/img/salud-tab.jpg');
+  background-image: url('img/salud-tab.jpg');
 }
 .gobierno{
-  background-image: url('/img/gobierno-tab.jpg');
+  background-image: url('img/gobierno-tab.jpg');
 }
 .educador{
-  background-image: url('/img/educador-tab.jpg');
+  background-image: url('img/educador-tab.jpg');
 }
 .acp{
-  background-image: url('/img/acp-tab.jpg');
+  background-image: url('img/acp-tab.jpg');
 }
 .tab {
   opacity: 0;                     /* invisible al inicio */
@@ -693,7 +693,7 @@ footer hr{
 }
 #privacidad-header{
   padding-top: 100px;
-  background-image: url('/img/privacidad.jpg');
+  background-image: url('img/privacidad.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -706,7 +706,7 @@ footer hr{
 font-weight: 200; padding-bottom: 15px;}
 #cotiza-header{
   padding-top: 100px;
-  background-image: url('/img/cotiza.jpg');
+  background-image: url('img/cotiza.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
