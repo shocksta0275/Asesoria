@@ -1,115 +1,210 @@
-  const menuToggle = document.getElementById("menuToggle");
-  const menuOverlay = document.getElementById("menuOverlay");
-  const menuClose = document.getElementById("menuClose");
+const PopupManager = (() => {
+  let current = null;
+
+  return {
+    open(id) {
+      if (current && current !== id) {
+        document.getElementById(current)?.classList.remove('active');
+      }
+      document.getElementById(id)?.classList.add('active');
+      current = id;
+      document.body.style.overflow = 'hidden';
+    },
+
+    close(id) {
+      document.getElementById(id)?.classList.remove('active');
+      if (current === id) {
+        current = null;
+        document.body.style.overflow = '';
+      }
+    },
+
+    closeAll() {
+      document.querySelectorAll('.popup.active, .overlay.active')
+        .forEach(el => el.classList.remove('active'));
+      current = null;
+      document.body.style.overflow = '';
+    }
+  };
+})();
+
+function initAll() {
+  initMenu();
+  initTabs();
+  initScrollTop();
+  initContactPanel();
+  initCarousel();
+  initLeadForm();
+}
+
+document.addEventListener('DOMContentLoaded', initAll);
+document.addEventListener('includesLoaded', initAll);
+
+/* =========================
+   MENÚ PRINCIPAL
+========================= */
+function initMenu() {
+  const menuToggle  = document.getElementById('menuToggle');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const menuClose   = document.getElementById('menuClose');
+
+  if (!menuToggle || !menuOverlay || !menuClose) return;
 
   function openMenu() {
-    menuOverlay.classList.add("active");
-    menuOverlay.setAttribute("aria-hidden", "false");
-    menuToggle.setAttribute("aria-expanded", "true");
-    document.body.style.overflow = "hidden";
+    PopupManager.open('menuOverlay');
+
+    menuOverlay.setAttribute('aria-hidden', 'false');
+    menuToggle.setAttribute('aria-expanded', 'true');
   }
 
   function closeMenu() {
-    menuOverlay.classList.remove("active");
-    menuOverlay.setAttribute("aria-hidden", "true");
-    menuToggle.setAttribute("aria-expanded", "false");
-    document.body.style.overflow = "";
+    PopupManager.close('menuOverlay');
+
+    menuOverlay.setAttribute('aria-hidden', 'true');
+    menuToggle.setAttribute('aria-expanded', 'false');
   }
 
-  menuToggle.addEventListener("click", openMenu);
-  menuClose.addEventListener("click", closeMenu);
+  menuToggle.addEventListener('click', openMenu);
+  menuClose.addEventListener('click', closeMenu);
 
-  // Cerrar si se toca cualquier link del menú
-  menuOverlay.addEventListener("click", (e) => {
-    if (e.target.tagName === "A") closeMenu();
+  // cerrar al tocar un link del menú
+  menuOverlay.addEventListener('click', e => {
+    if (e.target.tagName === 'A') closeMenu();
   });
-const tabs = document.querySelectorAll('.tab');
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target); // animación solo una vez
-    }
+  // cerrar con ESC
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
   });
-}, { threshold: 0.2 }); // 20% visible
+}
 
-// aplicar retraso escalonado
-tabs.forEach((tab, i) => {
-  tab.style.transitionDelay = `${i * 0.15}s`; // 150ms entre cada día
-  observer.observe(tab);
-});
-const scrollBtn = document.getElementById('scrollTopBtn');
+/* =========================
+   ANIMACIÓN TABS (IO)
+========================= */
+function initTabs() {
+  const tabs = document.querySelectorAll('.tab');
+  if (!tabs.length) return;
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) {   // cuando el header ya no se ve
-    scrollBtn.classList.add('show');
-  } else {
-    scrollBtn.classList.remove('show');
-  }
-});
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
 
-scrollBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
+  tabs.forEach((tab, i) => {
+    tab.style.transitionDelay = `${i * 0.15}s`;
+    observer.observe(tab);
   });
-});
-const toggle = document.getElementById('contact-toggle');
-const panel  = document.getElementById('contact-panel');
-const close  = document.querySelector('.close-panel');
+}
 
-toggle.addEventListener('click', () => {
-  panel.classList.toggle('active');
-});
+/* =========================
+   SCROLL TO TOP
+========================= */
+function initScrollTop() {
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  if (!scrollBtn) return;
 
-close.addEventListener('click', () => {
-  panel.classList.remove('active');
-});
+  let lastScroll = 0;
 
-const track = document.querySelector('.carousel-track');
-  let slides = Array.from(track.children);
+  window.addEventListener('scroll', () => {
+    if (Math.abs(window.scrollY - lastScroll) < 50) return;
+    lastScroll = window.scrollY;
+    scrollBtn.classList.toggle('show', window.scrollY > 300);
+  });
+
+  scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+/* =========================
+   PANEL DE CONTACTO
+========================= */
+function initContactPanel() {
+  const toggle = document.getElementById('contact-toggle');
+  const panel  = document.getElementById('contact-panel');
+  const close  = panel?.querySelector('.close-panel');
+
+  if (!toggle || !panel) return;
+
+  toggle.addEventListener('click', () => {
+    PopupManager.open('contact-panel');
+  });
+
+  close?.addEventListener('click', () => {
+    PopupManager.close('contact-panel');
+  });
+}
+
+/* =========================
+   CAROUSEL REVIEWS
+========================= */
+function initCarousel() {
+  const track = document.querySelector('.carousel-track');
   const dotsContainer = document.querySelector('.carousel-dots');
+  if (!track || !dotsContainer) return;
+  
+   if (track.dataset.ready === 'true') return;
+  track.dataset.ready = 'true';
+
+  const realSlides = Array.from(track.children);
+  const total = realSlides.length;
 
   let index = 1;
   let startX = 0;
   let currentX = 0;
-  let startTime = 0;
   let isDragging = false;
-  const slideWidth = () => slides[0].offsetWidth;
 
-  // Clonar extremos para loop infinito
-  track.prepend(slides[slides.length - 1].cloneNode(true));
-  track.append(slides[0].cloneNode(true));
-  slides = Array.from(track.children);
+  const slideWidth = () => realSlides[0].offsetWidth;
+
+  /* ===== CLONES ===== */
+  track.prepend(realSlides[total - 1].cloneNode(true));
+  track.append(realSlides[0].cloneNode(true));
+
+  const slides = Array.from(track.children);
 
   track.style.transform = `translateX(-${slideWidth()}px)`;
 
-  // Dots (solo slides reales)
-  const realSlidesCount = slides.length - 2;
-  for (let i = 0; i < realSlidesCount; i++) {
+  /* ===== DOTS ===== */
+  dotsContainer.innerHTML = '';
+  for (let i = 0; i < total; i++) {
     const dot = document.createElement('button');
     if (i === 0) dot.classList.add('active');
     dotsContainer.appendChild(dot);
   }
+
   const dots = dotsContainer.querySelectorAll('button');
 
   function updateDots() {
     dots.forEach(d => d.classList.remove('active'));
-    dots[(index - 1 + realSlidesCount) % realSlidesCount].classList.add('active');
+    dots[(index - 1 + total) % total].classList.add('active');
   }
 
   function goToSlide(i, animate = true) {
-    track.style.transition = animate ? 'transform 0.35s ease-out' : 'none';
+    track.style.transition = animate ? 'transform .35s ease-out' : 'none';
     track.style.transform = `translateX(-${i * slideWidth()}px)`;
     index = i;
     updateDots();
   }
 
-  // Swipe
+  /* ===== LOOP REAL ===== */
+  track.addEventListener('transitionend', () => {
+    if (index === 0) {
+      index = total;
+      goToSlide(index, false);
+    }
+    if (index === slides.length - 1) {
+      index = 1;
+      goToSlide(index, false);
+    }
+  });
+
+  /* ===== TOUCH ===== */
   track.addEventListener('touchstart', e => {
     startX = e.touches[0].clientX;
-    startTime = Date.now();
     isDragging = true;
     track.style.transition = 'none';
   });
@@ -126,23 +221,139 @@ const track = document.querySelector('.carousel-track');
     isDragging = false;
 
     const diff = currentX - startX;
-    const time = Date.now() - startTime;
-    const velocity = Math.abs(diff / time); // momentum
-
-    if (Math.abs(diff) > slideWidth() * 0.2 || velocity > 0.6) {
+    if (Math.abs(diff) > slideWidth() * 0.25) {
       index += diff < 0 ? 1 : -1;
     }
-
     goToSlide(index);
-
-    // Ajuste invisible para loop infinito
-    track.addEventListener('transitionend', () => {
-      if (index === 0) goToSlide(slides.length - 2, false);
-      if (index === slides.length - 1) goToSlide(1, false);
-    }, { once: true });
   });
 
-  // Click en dots
+  /* ===== DOT CLICK ===== */
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => goToSlide(i + 1));
   });
+
+  window.addEventListener('resize', () => goToSlide(index, false));
+}
+
+/* ---------------------
+            Form
+  --------------------- */
+function initLeadForm() {
+  const form = document.getElementById('leadForm');
+  const status = document.getElementById('form-status');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  if (!form) return;
+
+  const fields = {
+    fullName: { required: true, label: 'Nombre completo' },
+    birthDate: { required: false, label: 'Fecha de nacimiento' },
+    phone: { required: true, label: 'Número de teléfono' },
+    email: { required: true, label: 'Correo' },
+    workOption: { required: true, label: 'Labora en' },
+    workplace: { required: false, label: 'Lugar de trabajo' },
+    timeInCompany: { required: false, label: 'Tiempo en la empresa' },
+    affectedRefs: { required: true, label: 'Referencias afectadas' },
+    files: { required: false, label: 'Subir archivos' },
+    comments: { required: false, label: 'Comentarios' }
+  };
+
+  // VALIDACIÓN INLINE
+  form.querySelectorAll('input, select, textarea').forEach(input => {
+    input.addEventListener('input', () => {
+      const errorEl = input.closest('.form-group').querySelector('.error-message');
+      if (!errorEl) return;
+
+      errorEl.textContent = '';
+
+      if (fields[input.name]?.required && !input.value.trim()) {
+        errorEl.textContent = `${fields[input.name].label} es obligatorio`;
+        input.classList.add('invalid');
+        input.classList.remove('valid');
+      } else {
+        input.classList.remove('invalid');
+        input.classList.add('valid');
+      }
+
+      if (input.type === 'email' && input.value.trim()) {
+        const regex = /^\S+@\S+\.\S+$/;
+        if (!regex.test(input.value.trim())) {
+          errorEl.textContent = 'Correo no válido';
+          input.classList.add('invalid');
+          input.classList.remove('valid');
+        } else {
+          input.classList.remove('invalid');
+          input.classList.add('valid');
+        }
+      }
+    });
+  });
+
+  // ENVÍO DEL FORMULARIO
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    let valid = true;
+
+    form.querySelectorAll('input, select, textarea').forEach(input => {
+      const errorEl = input.closest('.form-group').querySelector('.error-message');
+      if (fields[input.name]?.required && !input.value.trim()) {
+        if (errorEl) errorEl.textContent = `${fields[input.name].label} es obligatorio`;
+        input.classList.add('invalid');
+        input.classList.remove('valid');
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      status.textContent = 'Por favor corrige los errores antes de enviar.';
+      status.classList.add('error');
+      return;
+    }
+
+    status.textContent = 'Enviando...';
+    status.classList.remove('error');
+    submitBtn.disabled = true;
+
+    // USAMOS FORM DATA PARA ARCHIVOS
+    const formData = new FormData();
+    formData.append('source', 'Formulario Web');
+
+    Object.keys(fields).forEach(key => {
+      const el = form.elements[key];
+      if (!el) return;
+      if (el.type === 'file' && el.files.length > 0) {
+        formData.append(key, el.files[0]); // adjunta el archivo real
+      } else if (el.type !== 'file') {
+        formData.append(key, el.value.trim());
+      }
+    });
+
+    try {
+      const response = await fetch(
+        'https://hook.us2.make.com/25mdw2k21j8ft5kxeafr08qv10ufir1h',
+        {
+          method: 'POST',
+          body: formData
+        }
+      );
+
+      if (response.ok) {
+        status.textContent = '¡Formulario enviado correctamente!';
+        status.classList.remove('error');
+        form.reset();
+        form.querySelectorAll('input, select, textarea').forEach(el => {
+          el.classList.remove('valid');
+        });
+      } else {
+        throw new Error('Error en el servidor');
+      }
+    } catch (err) {
+      status.textContent = 'No se pudo enviar el formulario. Intenta nuevamente.';
+      status.classList.add('error');
+      console.error(err);
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+}
