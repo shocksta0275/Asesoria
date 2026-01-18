@@ -240,8 +240,8 @@ function initCarousel() {
   --------------------- */
 function initLeadForm() {
   const form = document.getElementById('leadForm');
-  const status = document.getElementById('form-status');
-  const submitBtn = form.querySelector('button[type="submit"]');
+  const status = document.getElementById('form-status'); // div para mensajes generales
+  const submitBtn = form?.querySelector('button[type="submit"]');
 
   if (!form) return;
 
@@ -261,18 +261,17 @@ function initLeadForm() {
   // VALIDACIÓN INLINE
   form.querySelectorAll('input, select, textarea').forEach(input => {
     input.addEventListener('input', () => {
-      const errorEl = input.closest('.form-group').querySelector('.error-message');
+      const errorEl = input.closest('.form-group')?.querySelector('.error-message');
       if (!errorEl) return;
 
       errorEl.textContent = '';
+      input.classList.remove('invalid');
+      input.classList.remove('valid');
 
       if (fields[input.name]?.required && !input.value.trim()) {
         errorEl.textContent = `${fields[input.name].label} es obligatorio`;
         input.classList.add('invalid');
-        input.classList.remove('valid');
-      } else {
-        input.classList.remove('invalid');
-        input.classList.add('valid');
+        return;
       }
 
       if (input.type === 'email' && input.value.trim()) {
@@ -280,27 +279,27 @@ function initLeadForm() {
         if (!regex.test(input.value.trim())) {
           errorEl.textContent = 'Correo no válido';
           input.classList.add('invalid');
-          input.classList.remove('valid');
-        } else {
-          input.classList.remove('invalid');
-          input.classList.add('valid');
+          return;
         }
       }
+
+      input.classList.add('valid');
     });
   });
 
   // ENVÍO DEL FORMULARIO
   form.addEventListener('submit', async e => {
     e.preventDefault();
+    if (!submitBtn) return;
 
     let valid = true;
 
+    // VALIDACIÓN FINAL
     form.querySelectorAll('input, select, textarea').forEach(input => {
-      const errorEl = input.closest('.form-group').querySelector('.error-message');
+      const errorEl = input.closest('.form-group')?.querySelector('.error-message');
       if (fields[input.name]?.required && !input.value.trim()) {
         if (errorEl) errorEl.textContent = `${fields[input.name].label} es obligatorio`;
         input.classList.add('invalid');
-        input.classList.remove('valid');
         valid = false;
       }
     });
@@ -311,40 +310,38 @@ function initLeadForm() {
       return;
     }
 
-    status.textContent = 'Enviando...';
-    status.classList.remove('error');
+    // BLOQUEAR BOTÓN Y MOSTRAR ESTADO
     submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    status.textContent = '';
+    status.classList.remove('error');
 
-    // USAMOS FORM DATA PARA ARCHIVOS
-    const formData = new FormData();
-    formData.append('source', 'Formulario Web');
-
+    // CREAR OBJETO DE DATOS
+    const data = { source: 'Formulario Web' };
     Object.keys(fields).forEach(key => {
       const el = form.elements[key];
       if (!el) return;
-      if (el.type === 'file' && el.files.length > 0) {
-        formData.append(key, el.files[0]); // adjunta el archivo real
-      } else if (el.type !== 'file') {
-        formData.append(key, el.value.trim());
+      if (el.type === 'file') {
+        data[key] = el.files[0] ? el.files[0].name : '';
+      } else {
+        data[key] = el.value.trim();
       }
     });
 
+    console.log('Enviando a Make:', data); // puedes quitarlo luego
+
     try {
-      const response = await fetch(
-        'https://hook.us2.make.com/25mdw2k21j8ft5kxeafr08qv10ufir1h',
-        {
-          method: 'POST',
-          body: formData
-        }
-      );
+      const response = await fetch('https://hook.us2.make.com/tu-webhook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
 
       if (response.ok) {
         status.textContent = '¡Formulario enviado correctamente!';
         status.classList.remove('error');
         form.reset();
-        form.querySelectorAll('input, select, textarea').forEach(el => {
-          el.classList.remove('valid');
-        });
+        form.querySelectorAll('input, select, textarea').forEach(el => el.classList.remove('valid'));
       } else {
         throw new Error('Error en el servidor');
       }
@@ -354,6 +351,12 @@ function initLeadForm() {
       console.error(err);
     } finally {
       submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar';
     }
   });
 }
+
+// Inicializar
+document.addEventListener('DOMContentLoaded', () => {
+  initLeadForm();
+});
