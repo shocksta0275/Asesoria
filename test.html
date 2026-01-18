@@ -3,70 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario de Prueba</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 2rem; }
-    #form-status { margin-bottom: 1rem; font-weight: bold; }
-    button { padding: 0.5rem 1rem; font-size: 1rem; }
-  </style>
+  <title>Prueba Make</title>
 </head>
 <body>
-  <h1>Formulario de Prueba</h1>
-
-  <form id="leadForm">
-    <div id="form-status" style="color:green;"></div>
-    <button type="submit">Enviar Datos de Prueba</button>
-  </form>
+  <h1>Prueba de Envío a Make</h1>
+  <button id="sendBtn">Enviar JSON de prueba</button>
+  <div id="status" style="margin-top:1rem;"></div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('leadForm');
-      const status = document.getElementById('form-status');
+    const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/25mdw2k21j8ft5kxeafr08qv10ufir1h';
+    const status = document.getElementById('status');
+    const btn = document.getElementById('sendBtn');
 
-      if (!form) return;
+    btn.addEventListener('click', async () => {
+      const testData = { mensaje: "¡Hola Make!", timestamp: new Date().toISOString() };
+      status.textContent = "Enviando...";
+      status.style.color = "blue";
 
-      // URL del webhook Make
-      const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/25mdw2k21j8ft5kxeafr08qv10ufir1h';
+      try {
+        const response = await fetch(MAKE_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(testData)
+        });
 
-      // Datos hardcodeados para prueba
-      const testData = {
-        fullName: "Juan Pérez",
-        birthDate: "1985-07-20",
-        phone: "+50712345678",
-        email: "juan@example.com",
-        workOption: "Opción 2",
-        workplace: "Empresa XYZ",
-        timeInCompany: "5 años",
-        affectedRefs: "Sí",
-        files: "test.pdf",
-        comments: "Comentario de prueba"
-      };
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        status.textContent = 'Enviando datos de prueba...';
-        status.style.color = 'blue';
-
-        try {
-          const response = await fetch(MAKE_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(testData)
-          });
-
-          if (response.ok) {
-            status.textContent = '¡Formulario enviado correctamente!';
-            status.style.color = 'green';
-          } else {
-            throw new Error('Error en el servidor');
-          }
-        } catch (err) {
-          status.textContent = 'No se pudo enviar el formulario. Intenta nuevamente.';
-          status.style.color = 'red';
-          console.error(err);
+        if (response.ok) {
+          status.textContent = "Datos enviados correctamente.";
+          status.style.color = "green";
+        } else {
+          status.textContent = "Error en el envío.";
+          status.style.color = "red";
         }
-      });
+      } catch (err) {
+        status.textContent = "No se pudo conectar con Make.";
+        status.style.color = "red";
+        console.error(err);
+      }
     });
   </script>
 </body>
