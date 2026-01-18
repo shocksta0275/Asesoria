@@ -1,49 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Prueba Make</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Prueba</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; }
+    #form-status { margin-bottom: 1rem; font-weight: bold; }
+    button { padding: 0.5rem 1rem; font-size: 1rem; }
+  </style>
 </head>
 <body>
-<h2>Formulario de prueba</h2>
-<form id="leadForm">
-  <input type="text" name="fullName" placeholder="Nombre completo" required>
-  <input type="email" name="email" placeholder="Correo" required>
-  <input type="tel" name="phone" placeholder="Teléfono" required>
-  <button type="submit">Enviar</button>
-</form>
+  <h1>Formulario de Prueba</h1>
 
-<div id="form-status"></div>
+  <form id="leadForm">
+    <div id="form-status" style="color:green;"></div>
+    <button type="submit">Enviar Datos de Prueba</button>
+  </form>
 
-<script>
-document.getElementById('leadForm').addEventListener('submit', async e => {
-  e.preventDefault();
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('leadForm');
+      const status = document.getElementById('form-status');
 
-  const payload = {
-    fullName: "Juan Pérez",
-    email: "juan@example.com",
-    phone: "+50712345678"
-  };
+      if (!form) return;
 
-  document.getElementById('form-status').textContent = 'Enviando...';
+      // URL del webhook Make
+      const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/25mdw2k21j8ft5kxeafr08qv10ufir1h';
 
-  try {
-    const res = await fetch('https://hook.us2.make.com/25mdw2k21j8ft5kxeafr08qv10ufir1h', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      // Datos hardcodeados para prueba
+      const testData = {
+        fullName: "Juan Pérez",
+        birthDate: "1985-07-20",
+        phone: "+50712345678",
+        email: "juan@example.com",
+        workOption: "Opción 2",
+        workplace: "Empresa XYZ",
+        timeInCompany: "5 años",
+        affectedRefs: "Sí",
+        files: "test.pdf",
+        comments: "Comentario de prueba"
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        status.textContent = 'Enviando datos de prueba...';
+        status.style.color = 'blue';
+
+        try {
+          const response = await fetch(MAKE_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(testData)
+          });
+
+          if (response.ok) {
+            status.textContent = '¡Formulario enviado correctamente!';
+            status.style.color = 'green';
+          } else {
+            throw new Error('Error en el servidor');
+          }
+        } catch (err) {
+          status.textContent = 'No se pudo enviar el formulario. Intenta nuevamente.';
+          status.style.color = 'red';
+          console.error(err);
+        }
+      });
     });
-
-    if (res.ok) {
-      document.getElementById('form-status').textContent = '¡Enviado correctamente!';
-    } else {
-      document.getElementById('form-status').textContent = 'Error en el envío.';
-    }
-  } catch (err) {
-    document.getElementById('form-status').textContent = 'No se pudo conectar.';
-    console.error(err);
-  }
-});
-</script>
+  </script>
 </body>
 </html>
