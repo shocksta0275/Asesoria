@@ -238,115 +238,83 @@ function initCarousel() {
 /* ---------------------
             Form
   --------------------- */
-function initLeadForm() {
+function initLeadFormHybrid() {
   const form = document.getElementById('leadForm');
-  const status = document.getElementById('form-status'); // div para mensajes generales
+  const status = document.getElementById('form-status');
   const submitBtn = form?.querySelector('button[type="submit"]');
 
   if (!form) return;
 
-  const fields = {
-    fullName: { required: true, label: 'Nombre completo' },
-    birthDate: { required: false, label: 'Fecha de nacimiento' },
-    phone: { required: true, label: 'Número de teléfono' },
-    email: { required: true, label: 'Correo' },
-    workOption: { required: true, label: 'Labora en' },
-    workplace: { required: false, label: 'Lugar de trabajo' },
-    timeInCompany: { required: false, label: 'Tiempo en la empresa' },
-    affectedRefs: { required: true, label: 'Referencias afectadas' },
-    files: { required: false, label: 'Subir archivos' },
-    comments: { required: false, label: 'Comentarios' }
+  // Modo prueba: cambiar a false cuando quieras enviar datos reales
+  const TEST_MODE = true;
+
+  // Datos de prueba hardcodeados
+  const testData = {
+    fullName: 'Juan Pérez',
+    birthDate: '1985-07-20',
+    phone: '+50712345678',
+    email: 'juan@example.com',
+    workOption: 'Opción 2',
+    workplace: 'Empresa XYZ',
+    timeInCompany: '5 años',
+    affectedRefs: 'Sí',
+    files: 'test.pdf',
+    comments: 'Comentario de prueba',
+    source: 'Formulario Web Test'
   };
 
-  // VALIDACIÓN INLINE
-  form.querySelectorAll('input, select, textarea').forEach(input => {
-    input.addEventListener('input', () => {
-      const errorEl = input.closest('.form-group')?.querySelector('.error-message');
-      if (!errorEl) return;
-
-      errorEl.textContent = '';
-      input.classList.remove('invalid');
-      input.classList.remove('valid');
-
-      if (fields[input.name]?.required && !input.value.trim()) {
-        errorEl.textContent = `${fields[input.name].label} es obligatorio`;
-        input.classList.add('invalid');
-        return;
-      }
-
-      if (input.type === 'email' && input.value.trim()) {
-        const regex = /^\S+@\S+\.\S+$/;
-        if (!regex.test(input.value.trim())) {
-          errorEl.textContent = 'Correo no válido';
-          input.classList.add('invalid');
-          return;
-        }
-      }
-
-      input.classList.add('valid');
-    });
-  });
-
-  // ENVÍO DEL FORMULARIO
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if (!submitBtn) return;
 
-    let valid = true;
-
-    // VALIDACIÓN FINAL
-    form.querySelectorAll('input, select, textarea').forEach(input => {
-      const errorEl = input.closest('.form-group')?.querySelector('.error-message');
-      if (fields[input.name]?.required && !input.value.trim()) {
-        if (errorEl) errorEl.textContent = `${fields[input.name].label} es obligatorio`;
-        input.classList.add('invalid');
-        valid = false;
-      }
-    });
-
-    if (!valid) {
-      status.textContent = 'Por favor corrige los errores antes de enviar.';
-      status.classList.add('error');
-      return;
-    }
-
-    // BLOQUEAR BOTÓN Y MOSTRAR ESTADO
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
     status.textContent = '';
     status.classList.remove('error');
 
-    // CREAR OBJETO DE DATOS
-    const data = { source: 'Formulario Web' };
-    Object.keys(fields).forEach(key => {
-      const el = form.elements[key];
-      if (!el) return;
-      if (el.type === 'file') {
-        data[key] = el.files[0] ? el.files[0].name : '';
-      } else {
-        data[key] = el.value.trim();
-      }
-    });
+    let dataToSend;
 
-    console.log('Enviando a Make:', data); // puedes quitarlo luego
+    if (TEST_MODE) {
+      dataToSend = testData;
+      console.log('Enviando datos de prueba a Make:', dataToSend);
+    } else {
+      // Captura datos reales del formulario
+      dataToSend = {
+        source: 'Formulario Web',
+        fullName: form.elements.fullName?.value.trim() || '',
+        birthDate: form.elements.birthDate?.value.trim() || '',
+        phone: form.elements.phone?.value.trim() || '',
+        email: form.elements.email?.value.trim() || '',
+        workOption: form.elements.workOption?.value.trim() || '',
+        workplace: form.elements.workplace?.value.trim() || '',
+        timeInCompany: form.elements.timeInCompany?.value.trim() || '',
+        affectedRefs: form.elements.affectedRefs?.value.trim() || '',
+        files: form.elements.files?.files[0]?.name || '',
+        comments: form.elements.comments?.value.trim() || ''
+      };
+      console.log('Enviando datos reales a Make:', dataToSend);
+    }
 
     try {
-      const response = await fetch('https://hook.us2.make.com/tu-webhook', {
+      const response = await fetch('https://hook.us2.make.com/25mdw2k21j8ft5kxeafr08qv10ufir1h', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(dataToSend)
       });
 
       if (response.ok) {
-        status.textContent = '¡Formulario enviado correctamente!';
+        status.textContent = TEST_MODE
+          ? '¡Formulario de prueba enviado correctamente!'
+          : '¡Formulario enviado correctamente!';
         status.classList.remove('error');
-        form.reset();
-        form.querySelectorAll('input, select, textarea').forEach(el => el.classList.remove('valid'));
+        if (!TEST_MODE) form.reset();
       } else {
         throw new Error('Error en el servidor');
       }
     } catch (err) {
-      status.textContent = 'No se pudo enviar el formulario. Intenta nuevamente.';
+      status.textContent = TEST_MODE
+        ? 'No se pudo enviar el formulario de prueba.'
+        : 'No se pudo enviar el formulario.';
       status.classList.add('error');
       console.error(err);
     } finally {
@@ -358,5 +326,5 @@ function initLeadForm() {
 
 // Inicializar
 document.addEventListener('DOMContentLoaded', () => {
-  initLeadForm();
+  initLeadFormHybrid();
 });
