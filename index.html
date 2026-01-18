@@ -32,40 +32,14 @@
 
 <body>
             <!-- Header -->
-  <div class="site-header">
-    <div class="header-inner">
-      <div class="brand"><img src="img/asesoria-logo.png"></div>
-  
-      <button
-        class="menu-toggle"
-        aria-label="Menú"
-        aria-expanded="false"
-        id="menuToggle"
-      >
-       Menú ☰
-      </button>
-    </div>
-  </div>
-
-<!-- Menú overlay -->
-<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
-  <button class="menu-close" aria-label="Cerrar menú" id="menuClose">Cerrar ✕</button>
-<hr>
-  <nav class="menu-nav">
-    <a href="servicios.html"><span class="v">✓</span>Servicios</a>
-    <a href="cotiza.html"><span class="v">✓</span>Cotiza con Nosotros</a>
-    <a href="contacto.html"><span class="v">✓</span>Contactanos</a>
-    <hr>
-    <a href="privacidad.html" class="small">• Política de Privacidad</a>
-  </nav>
-</div>
+  <header data-include="/partials/menu.html"></header>
 
   <!-- Contenido principal -->
-  <main id="main-content">
-    <section id="hero" class="contenido overlay">
-      <div class="hero-item"><h1>Necesitas un <b><span class="hand-underline v">Préstamo</span> Personal?</b></h1></div>
-      <div class="hero-item">La mejor opción financiera según tu perfil.
-Asesoría experta para decidir con confianza.</div>
+  <main>
+    <section id="hero" class="contenido overlay hero">
+      <h1>Necesitas un <b><span class="hand-underline v">Préstamo</span> Personal?</b></h1>
+      <p>La mejor opción financiera según tu perfil.
+Asesoría experta para decidir con confianza.</p>
       <div class="hero-item"><a href="https://wa.me/50765203139" class="btn-whatsapp" target="_blank" rel="noopener">
   <svg width="24px" height="24px" viewBox="0 0 24 24" role="img" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><title>WhatsApp icon</title><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
   Contacta a un Ejecutivo
@@ -74,7 +48,7 @@ Asesoría experta para decidir con confianza.</div>
     </section>
     <section id="servicios">
       <div class="contenido">
-      <h3>Brindamos <b><span class="a">Asesoría</span> <span class="v">en Banca</span></b> clara, honesta y estratégica</h3>
+      <h2><b><span class="a">Asesoría</span> <span class="v">en Banca</span></b> clara, honesta y estratégica</h2>
         <p>Nuestra imparcialidad nos permite analizar detalladamente las alternativas que ofrecen bancos y financieras, comparando tasas, condiciones y beneficios, para que elijas la opción que mejor se adapta a tu perfil y necesidades.
         </p>
       </div>
@@ -84,147 +58,108 @@ Asesoría experta para decidir con confianza.</div>
         <h2>Quienes aplican para un préstamo personal?</h2>
         <p>Si trabajas en uno de estos sectores,  tienes posibilidades de acceder a un préstamo personal.</p>
         <div class="sector-container">
-          <div class="sector-item privada overlay tab">
+          <div class="sector-item privada overlay tab tab-content">
             <h4>Empresa Privada</h4>
-            <p><span class="v">✓</span> Empresas con mas de 20 colaboradores</p>
-            <br>
-            <p>Aplican desde 6 meses y continuidad de un año en el empleo anterior.<small>(varia según banco)</small></p>
-            <p><span class="aprobaciones"><img src="img/check.png"><b>APROBACIONES:</b><span class="n">375</span> </span></p>
+            <ul class="inline-list check">
+              <li>Empresas con mas de 20 colaboradores.</li>
+              </ul>
+            <p>Aplican desde 6 meses y continuidad de un año en el empleo anterior.<small> (varia según banco)</small></p>
+            <p><span class="aprobaciones"><img src="/img/check.png"><b>APROBACIONES:</b><span class="n">375</span> </span></p>
           </div>
-          <div class="sector-item jubilados overlay tab">
+          <div class="sector-item jubilados overlay tab tab-content">
             <h4>Jubilados</h4>
-            <p><span class="v">✓</span> Jubilados de CSS</p>
-            <p><span class="v">✓</span> Jubilados de Contraloría</p>
-            <br>
+            <ul class="inline-list check">
+              <li>Jubilados de CSS</li>
+              <li>Jubilados de Contraloría</li>
+            </ul>
             <p>No se considera el nivel de compromisos y se cancelan referencias afectadas. Sin citas médicas <small>(aplican restricciones)</small></p>
-            <p><span class="aprobaciones"><img src="img/check.png"><b>APROBACIONES:</b><span class="n">681</span> </span></p>
+            <p><span class="aprobaciones"><img src="/img/check.png"><b>APROBACIONES:</b><span class="n">681</span> </span></p>
           </div>
-          <div class="sector-item salud overlay tab">
+          <div class="sector-item salud overlay tab tab-content">
             <h4>Sector Salud</h4>
-            <p><span class="v">✓</span>  Médicos  <span class="v">✓</span> Enfermeras (os)</p>
-            <p><span class="v">✓</span>  Laboratoristas   <span class="v">✓</span> Terapeutas</p>
-            <p><span class="v">✓</span> Radiólogos <span class="v">✓</span> Paramédicos </p>
-            <p><span class="v">✓</span> Personal Administrativo</p>
-            <br>
+            <ul class="inline-list check">
+              <li>Médicos</li>
+              <li>Enfermeras (os)</li>
+              <li>Terapeutas</li>
+              <li>Laboratoristas</li>
+              <li>Radiólogos</li>
+              <li>Paramédicos</li>
+              <li>Personal Administrativo</li>
+            </ul>
             <p>Aplican desde un mes de permanencia. No se considera el nivel de compromisos. Se cancelan embargos y referencias afectadas. <small>(varia según banco)</small></p>
-            <p><span class="aprobaciones"><img src="img/check.png"><b>APROBACIONES:</b> <span class="n">206</span></span></p>
+            <p><span class="aprobaciones"><img src="/img/check.png"><b>APROBACIONES:</b> <span class="n">206</span></span></p>
           </div>
-          <div class="sector-item gobierno overlay tab">
+          <div class="sector-item gobierno overlay tab tab-content">
             <h4>Sector Gobierno</h4>
-            <p><span class="v">✓</span>  Gobierno Cantral  <span class="v">✓</span> Bomberos</p>
-            <p><span class="v">✓</span>  Lotería   <span class="v">✓</span> Municipios</p>
-            <p><span class="v">✓</span> Funcionarios municipales</p>
-            <p><span class="v">✓</span>  Funcionarios Judiciales</p>
-            <br>
-            <p>Aplican desde 6 meses permanente( listado de instituciones). Otras instituciones desde 5 años de permanencia.</p>
-            <p><span class="aprobaciones"><img src="img/check.png"><b>APROBACIONES:</b><span class="n">2,602</span> </span></p>
+            <ul class="inline-list check">
+              <li>Bomberos</li>
+              <li>Lotería</li>
+              <li>Municipios</li>
+              <li>Funcionarios municipales</li>
+              <li>Funcionarios Judiciales</li>
+            </ul>            
+            <p>Aplican desde 6 meses permanente (listado de instituciones). Otras instituciones desde 5 años de permanencia.</p>
+            <p><span class="aprobaciones"><img src="/img/check.png"><b>APROBACIONES:</b><span class="n">2,602</span> </span></p>
           </div>
-          <div class="sector-item educador overlay tab">
+          <div class="sector-item educador overlay tab tab-content">
             <h4>Sector Educación</h4>
-            <p><span class="v">✓</span>  Educadores <span class="v">✓</span> Maestros</p>
-            <p><span class="v">✓</span>  Administrativos</p>
-            <br>
+            <ul class="inline-list check">
+              <li>Educadores</li>
+              <li>Maestros</li>
+              <li>Administrativos</li>
+            </ul>
             <p>Aplican desde un mes de permanencia. No se considera el nivel de compromisos. Se cancelan embargos y referencias afectadas.</p>
-            <p><span class="aprobaciones"><img src="img/check.png"><b>APROBACIONES:</b><span class="n">956</span> </span></p>
+            <p><span class="aprobaciones"><img src="/img/check.png"><b>APROBACIONES:</b><span class="n">956</span> </span></p>
           </div>
-          <div class="sector-item acp overlay tab">
+          <div class="sector-item acp overlay tab tab-content">
             <h4>ACP</h4>
-            <p><span class="v">✓</span>  Ingenieros <span class="v">✓</span> Técnicos</p>
-            <p><span class="v">✓</span>  Administrativos   <span class="v">✓</span> Personal de campo</p>
-            <br>
+            <ul class="inline-list check">
+              <li>Ingenieros</li>
+              <li>Técnicos</li>
+              <li>Administrativos</li>
+              <li>Personal de campo</li>
+            </ul>            
             <p>Aplican eventuales y permanentes. Se cancela malas referencias y embargo.</p>
-            <p><span class="aprobaciones"><img src="img/check.png"><b>APROBACIONES:</b><span class="n">737</span> </span></p>
+            <p><span class="aprobaciones"><img src="/img/check.png"><b>APROBACIONES:</b><span class="n">737</span> </span></p>
           </div>
         </div>
       </div>
     </section>
     <section id="cotiza">
-      <div>
-        <a href="cotiza.html" class="btn-cotiza">
+        <a href="/cotiza.html" class="btn-cotiza">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
           <path d="M2 21h4V9H2v12zM23 10c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 2 7.59 8.59C7.22 8.95 7 9.45 7 10v9c0 1.1.9 2 2 2h8c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.99l-.01-.01L23 10z"/>
-        </svg>
-Cotiza con nosotros</a>
-      </div>
+        </svg> Cotiza con nosotros</a>
     </section>
     <section class="reviews">
-  <h2>Opiniones de clientes</h2>
+  <h2>Opiniones de nuestros <span class="v">clientes</span></h2>
 
   <div class="carousel">
     <div class="carousel-track">
       <!-- Slides reales -->
-      <div class="review">“Excelente servicio, muy claros.”<span>Carlos M.</span><p>Jubilado</p></div>
-      <div class="review">“Rápidos y profesionales.”<span>Ana R.</span><p>Educadores</p></div>
-      <div class="review">“100% recomendados.”<span> Luis G.</span><p>ACP</p></div>
+      <div class="review">
+        <blockquote>“Excelente servicio, muy claros.”</blockquote>
+        <cite>Carlos M.</cite>
+        <p>Jubilado</p>
+      </div>
+      <div class="review">
+        <blockquote>“Rápidos y profesionales.”</blockquote>
+        <cite>Ana R.</cite>
+        <p>Educadores</p>
+      </div>
+      <div class="review">
+        <blockquote>“100% recomendados.”</blockquote>
+        <cite> Luis G.</cite>
+        <p>ACP</p>
+      </div>
     </div>
   </div>
 
   <div class="carousel-dots"></div>
 </section>
-    <section id="bottom">
-      <div class="bottom-contenido">
-        <div class="bottom-item">
-          <img src="img/asesoria-logo2.png">
-        </div>
-        <div class="bottom-item right">
-          <div id="redes">
-            <h5>Siguenos en redes</h5>
-            <div class="social-icon">
-              <a href="https://www.instagram.com/asesoria_enbanca"
-               class="social-icon"
-               aria-label="Instagram"
-               target="_blank"
-               rel="noopener">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.505 4.505 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.503 2.503 0 0 1 12 14.5zM17.75 6a.75.75 0 1 0 .75.75.75.75 0 0 0-.75-.75z"/>
-              </svg>
-            </a></div>
-            <div class="social-icon">
-              <a href="https://www.facebook.com/asesoriaenbanca"
-                 class="social-icon"
-                 aria-label="Facebook"
-                 target="_blank"
-                 rel="noopener">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M22 12a10 10 0 1 0-11.563 9.875v-6.987H7.898V12h2.539V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.465h-1.261c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.888h-2.33v6.987A10.002 10.002 0 0 0 22 12z"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
   </main>
+  <div data-include="partials/scroll.html"></div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="contenido-footer">
-      <div class="footer-legal">
-        <div class="footer-item left">
-        2026 © Asesoría en Banca
-      </div>
-      <div class="footer-item right"><a href="privacidad.html">Política de Privacidad</a></div>
-      </div>
-      <hr>
-      <div class="aicodigo">Desarrollo web:  <img src="img/ai-codigo.png" alt="Desarrollo web: ai Codigo"></div>
-    </div>
-  </footer>
-  <button id="scrollTopBtn" aria-label="Volver arriba">
-  <svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 24 24"
-     width="30"
-     height="30"
-     fill="none"
-     stroke="currentColor"
-     stroke-width="2"
-     stroke-linecap="round"
-     stroke-linejoin="round">
-  <path d="M12 19V5" />
-  <path d="M5 12l7-7 7 7" />
-</svg>
-</button>
 <!-- BOTÓN STICKY CONTACTO -->
 <button id="contact-toggle" aria-label="Contacto">
   <!-- icono chat -->
@@ -241,51 +176,13 @@ Cotiza con nosotros</a>
 </button>
 
 <!-- POPUP CONTACTO -->
-<div id="contact-panel">
-  <button class="close-panel" aria-label="Cerrar">X</button>
+<div id="contact-panel" data-include="/partials/contact-panel.html"></div>
 
-  <h4>Contacto directo</h4>
+  <!-- Footer -->
+  <footer data-include="/partials/footer.html"></footer>
+  
+<script src="/includes.js" defer></script>
+<script src="/script.js" defer></script>
 
-  <ul>
-    <li><svg viewBox="0 0 24 24">
-      <path d="M4 3l4 1 2 5-3 2c1.5 3 4 5.5 7 7l2-3 5 2 1 4c-9 1-18-8-18-18z"
-        fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linejoin="round"/>
-        </svg> <a href="tel:+5076520-3139">(507) 6520-3139</a> | <a href="tel:+5076332-2743">(507) 6332-2743</a>
-    </li>
-    <li><svg viewBox="0 0 32 32">
-  <path d="M16 3C9 3 3.5 8.5 3.5 15.3c0 2.7.9 5.2 2.5 7.3L3 29l6.7-2.9c2 1.1 4.3 1.7 6.3 1.7
-           7 0 12.5-5.5 12.5-12.5S23 3 16 3z"
-        fill="none" stroke="currentColor" stroke-width="2"/>
-  <path d="M12 11c.5 3 3.5 6 6 6l2-2 3 1"
-        fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round"/>
-</svg> <a href="https://wa.me/50763322743" target="_blank">WhatsApp</a></li>
-    <li><svg viewBox="0 0 24 24">
-  <rect x="3" y="5" width="18" height="14" rx="2"
-        fill="none" stroke="currentColor" stroke-width="2"/>
-  <path d="M3 7l9 6 9-6"
-        fill="none" stroke="currentColor" stroke-width="2"/>
-</svg> <a href="mailto:ventas@asesoriaenbanca.com">ventas@asesoriaenbanca.com</a></li>
-    <li class="linea"><svg viewBox="0 0 24 24">
-  <path d="M12 21s7-7 7-11a7 7 0 0 0-14 0c0 4 7 11 7 11z"
-        fill="none" stroke="currentColor" stroke-width="2"/>
-  <circle cx="12" cy="10" r="2"
-          fill="none" stroke="currentColor" stroke-width="2"/>
-</svg> Ciudad de Panamá, Avenida Perú calle 37, Edificio Manuel Enrique Local 113</li>
-<h4>Siguenos en las redes</h4>
-    <li><svg viewBox="0 0 24 24">
-            <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.505 4.505 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.503 2.503 0 0 1 12 14.5zM17.75 6a.75.75 0 1 0 .75.75.75.75 0 0 0-.75-.75z" fill="currentColor"/>
-          </svg> <a href="https://www.instagram.com/asesoria_enbanca/">@asesoria_enbanca</a>
-      
-        </li>
-    <li>
-            <svg viewBox="0 0 24 24">
-              <path d="M22 12a10 10 0 1 0-11.563 9.875v-6.987H7.898V12h2.539V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.465h-1.261c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.888h-2.33v6.987A10.002 10.002 0 0 0 22 12z" fill="currentColor"/>
-            </svg> <a href="https://wwe.facebook.com/asesoriaenbanca/">facebook.com/asesoriaenbanca</a>
-    </li>
-  </ul>
-</div>
-<script src="script.js"></script>
 </body>
-                                                                                         </html>
+</html>
